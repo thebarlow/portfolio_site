@@ -1,0 +1,207 @@
+---
+---
+
+<section
+  id="hero"
+  class="relative overflow-hidden min-h-screen flex items-center justify-center px-6"
+>
+  <!-- Gradient mesh background -->
+  <div class="mesh-bg" aria-hidden="true">
+    <div class="mesh-blob mesh-blob-1"></div>
+    <div class="mesh-blob mesh-blob-2"></div>
+    <div class="mesh-blob mesh-blob-3"></div>
+  </div>
+
+  <div class="relative z-10 max-w-6xl w-full mx-auto flex flex-col-reverse md:flex-row items-center gap-12 py-24">
+
+    <!-- Text -->
+    <div class="flex-1 flex flex-col gap-6">
+      <div class="flex flex-col gap-3">
+        <p class="text-sm font-mono tracking-widest text-cyan-600 dark:text-cyan-400 uppercase">
+          Software Engineer
+        </p>
+        <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-zinc-900 dark:text-white leading-tight">
+          Hi, I'm Matthew
+        </h1>
+      </div>
+
+      <p class="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
+        A passionate developer who loves turning ideas into clean, functional,
+        and visually appealing solutions. From crafting responsive websites to
+        building interactive applications, I thrive on solving problems through
+        code. My portfolio showcases a variety of projects — each a reflection
+        of my dedication to learning, experimenting, and delivering high-quality
+        work.
+      </p>
+
+      <div class="flex items-center gap-4 pt-2">
+        <a
+          href="/#projects"
+          class="px-6 py-3 rounded-full bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-medium transition-colors"
+        >
+          View my work
+        </a>
+        <a
+          href="/#contact"
+          class="px-6 py-3 rounded-full border border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-300 hover:border-zinc-500 dark:hover:border-zinc-400 text-sm font-medium transition-colors"
+        >
+          Get in touch
+        </a>
+      </div>
+    </div>
+
+    <!-- Photo -->
+    <div class="flex-shrink-0">
+      <div class="relative w-56 h-56 md:w-72 md:h-72 photo-float">
+        <!-- Outer corona -->
+        <div class="absolute inset-0 rounded-full cyan-halo-outer"></div>
+        <!-- Inner halo -->
+        <div class="absolute inset-0 rounded-full cyan-halo"></div>
+        <!-- Cyan gradient border ring -->
+        <div class="absolute inset-0 rounded-full cyan-ring p-[3px]">
+          <img
+            src="/me.jpg"
+            alt="Matthew Barlow"
+            class="w-full h-full rounded-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .cyan-ring {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+  }
+
+  :global(.dark) .cyan-ring {
+    background: linear-gradient(135deg, #22d3ee, #06b6d4);
+  }
+
+  .photo-float {
+    filter: drop-shadow(0 24px 48px rgba(0,0,0,0.25)) drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+  }
+
+  :global(.dark) .photo-float {
+    filter: drop-shadow(0 24px 48px rgba(0,0,0,0.55)) drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+  }
+
+  .cyan-halo {
+    background: radial-gradient(circle, rgba(6,182,212,0.35) 0%, transparent 65%);
+    transform: scale(1.25);
+    filter: blur(24px);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  :global(.dark) .cyan-halo {
+    background: radial-gradient(circle, rgba(34,211,238,0.25) 0%, transparent 65%);
+  }
+
+  .cyan-halo-outer {
+    background: radial-gradient(circle, rgba(6,182,212,0.18) 0%, transparent 70%);
+    transform: scale(1.5);
+    filter: blur(40px);
+    animation: pulse-outer 3s ease-in-out infinite reverse;
+  }
+
+  :global(.dark) .cyan-halo-outer {
+    background: radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 70%);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.7; transform: scale(1.25); }
+    50%       { opacity: 1.0; transform: scale(1.35); }
+  }
+
+  @keyframes pulse-outer {
+    0%, 100% { opacity: 0.6; transform: scale(1.5); }
+    50%       { opacity: 1.0; transform: scale(1.6); }
+  }
+
+  /* Fade-up animation on load */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  section > div > div:first-child {
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  section > div > div:last-child {
+    animation: fadeUp 0.7s ease 0.15s both;
+  }
+
+  /* ── Gradient mesh background ───────────────────────── */
+  .mesh-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .mesh-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+  }
+
+  /* Blob 1 — cyan, top right */
+  .mesh-blob-1 {
+    width: 380px;
+    height: 380px;
+    background: rgba(6, 182, 212, 0.18);
+    top: -60px;
+    right: 10%;
+    animation: mesh1 8s ease-in-out infinite;
+  }
+
+  /* Blob 2 — indigo, bottom left */
+  .mesh-blob-2 {
+    width: 300px;
+    height: 300px;
+    background: rgba(99, 102, 241, 0.08);
+    bottom: 0;
+    left: 5%;
+    animation: mesh2 10s ease-in-out infinite;
+  }
+
+  /* Blob 3 — cyan, center */
+  .mesh-blob-3 {
+    width: 250px;
+    height: 250px;
+    background: rgba(6, 182, 212, 0.10);
+    top: 30%;
+    left: 40%;
+    animation: mesh3 12s ease-in-out infinite;
+  }
+
+  /* Dark mode — slightly more vivid */
+  :global(.dark) .mesh-blob-1 { background: rgba(34, 211, 238, 0.18); }
+  :global(.dark) .mesh-blob-2 { background: rgba(99, 102, 241, 0.12); }
+  :global(.dark) .mesh-blob-3 { background: rgba(34, 211, 238, 0.10); }
+
+  @keyframes mesh1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(40px, -30px) scale(1.15); }
+  }
+
+  @keyframes mesh2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(-30px, 40px) scale(1.2); }
+  }
+
+  @keyframes mesh3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(20px, 30px) scale(0.9); }
+  }
+</style>

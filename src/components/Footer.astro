@@ -1,0 +1,29 @@
+---
+const year = new Date().getFullYear();
+const version = "v1.0.0";
+
+// Get UTC offset label for EST
+const tzLabel = "UTC−5";
+---
+
+<footer class="border-t border-zinc-100 dark:border-zinc-800 px-6 py-8">
+  <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-400 dark:text-zinc-600">
+
+    <span>© {year} matthewbarlow.me</span>
+
+    <div class="flex items-center gap-6 font-mono text-xs">
+      <span>{version}</span>
+      <span>{tzLabel}</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <a href="https://github.com/thebarlow" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">
+        GitHub
+      </a>
+      <a href="https://linkedin.com/in/matthew-barlow-433492199/" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">
+        LinkedIn
+      </a>
+    </div>
+
+  </div>
+</footer>

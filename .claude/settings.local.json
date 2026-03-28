@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:matthewbarlow.me)",
+      "Bash(curl -L \"https://matthewbarlow.me/assets/images/me.jpg\" -o \"C:/Users/barlo/Projects/workshop/portfolio_site/public/me.jpg\" -w \"\\\\nHTTP Status: %{http_code}\\\\nSize: %{size_download} bytes\" 2>&1)"
+    ]
+  }
+}

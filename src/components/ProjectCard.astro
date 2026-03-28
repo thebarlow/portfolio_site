@@ -1,0 +1,122 @@
+---
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const href = project.slug ? `/projects/${project.slug}` : (project.github ?? "#");
+const external = !project.slug;
+---
+
+<a
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+  class="project-card group relative flex flex-col gap-3 p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500 dark:hover:border-cyan-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/10 cursor-pointer overflow-hidden w-72 flex-shrink-0"
+>
+  <!-- Thumbnail -->
+  {project.livePreview ? (
+    <div class="live-preview-thumb relative w-full h-36 rounded-xl overflow-hidden bg-gray-900">
+      <iframe
+        class="live-preview-iframe"
+        src="/"
+        scrolling="no"
+        tabindex="-1"
+        aria-hidden="true"
+        style="position:absolute;top:0;left:0;border:none;pointer-events:none;"
+      ></iframe>
+      <div class="live-cursor" style="position:absolute;width:14px;height:14px;border-radius:50%;background:white;mix-blend-mode:difference;pointer-events:none;display:none;transform:translate(-50%,-50%);z-index:9999;"></div>
+    </div>
+  ) : (
+    <div class="w-full h-36 rounded-xl bg-gradient-to-br from-cyan-500/10 to-cyan-700/10 dark:from-cyan-500/15 dark:to-cyan-700/15 flex items-center justify-center">
+      {project.thumbnail
+        ? <img src={project.thumbnail} alt={project.title} class="w-full h-full object-cover rounded-xl" />
+        : <span class="text-3xl opacity-20">{ "{ }" }</span>
+      }
+    </div>
+  )}
+
+  <!-- Content -->
+  <div class="flex flex-col gap-1">
+    <h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+      {project.title}
+    </h3>
+    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
+      {project.description}
+    </p>
+  </div>
+
+  <!-- Tech stack (always visible at bottom) -->
+  <div class="flex flex-wrap gap-1 mt-auto pt-2">
+    {project.tech.map((t) => (
+      <span class="px-2 py-0.5 rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-xs font-mono">
+        {t}
+      </span>
+    ))}
+  </div>
+
+  <!-- Hover overlay -->
+  <div class="absolute inset-0 rounded-2xl bg-cyan-700/90 dark:bg-cyan-600/90 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6">
+    <p class="text-white font-semibold text-center">{project.title}</p>
+    <div class="flex flex-wrap gap-2 justify-center">
+      {project.tech.map((t) => (
+        <span class="px-3 py-1 rounded-full bg-white/20 text-white text-xs font-mono">
+          {t}
+        </span>
+      ))}
+    </div>
+    <span class="mt-2 text-white/80 text-sm">
+      {project.slug ? "View case study →" : "View on GitHub →"}
+    </span>
+  </div>
+</a>
+
+<script>
+  // Don't run inside an iframe (prevents infinite nesting)
+  if (window.self === window.top) {
+    document.querySelectorAll<HTMLElement>(".live-preview-thumb").forEach((wrapper) => {
+      const iframe = wrapper.querySelector<HTMLIFrameElement>(".live-preview-iframe")!;
+      const cursor = wrapper.querySelector<HTMLElement>(".live-cursor")!;
+
+      function getScale() {
+        return wrapper.offsetWidth / window.innerWidth;
+      }
+
+      function sizeIframe() {
+        const scale = getScale();
+        iframe.style.width = window.innerWidth + "px";
+        iframe.style.height = window.innerHeight + "px";
+        iframe.style.transform = `scale(${scale})`;
+        iframe.style.transformOrigin = "top left";
+      }
+
+      function syncScroll() {
+        try {
+          iframe.contentWindow?.scrollTo(window.scrollX, window.scrollY);
+        } catch (_) {}
+      }
+
+      iframe.addEventListener("load", () => {
+        sizeIframe();
+        syncScroll();
+      });
+
+      sizeIframe();
+      window.addEventListener("resize", sizeIframe);
+      window.addEventListener("scroll", syncScroll, { passive: true });
+
+      document.addEventListener("mousemove", (e) => {
+        const scale = getScale();
+        cursor.style.display = "block";
+        cursor.style.left = e.clientX * scale + "px";
+        cursor.style.top = e.clientY * scale + "px";
+      });
+
+      document.addEventListener("mouseleave", () => {
+        cursor.style.display = "none";
+      });
+    });
+  }
+</script>

@@ -1,0 +1,223 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import { projects } from "../data/projects";
+
+// Collect all unique tech tags for the filter bar
+const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort();
+
+// Split projects into two rows
+const row1 = projects.slice(0, Math.ceil(projects.length / 2));
+const row2 = projects.slice(Math.ceil(projects.length / 2));
+---
+
+<section
+  id="projects"
+  class="relative overflow-hidden py-32 px-6 border-t border-zinc-100 dark:border-zinc-800"
+>
+  <div class="mesh-bg" aria-hidden="true">
+    <div class="mesh-blob mesh-blob-1"></div>
+    <div class="mesh-blob mesh-blob-2"></div>
+  </div>
+  <div class="relative z-10 max-w-6xl mx-auto flex flex-col gap-12">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div>
+        <p class="text-sm font-mono tracking-widest text-cyan-600 dark:text-cyan-400 uppercase mb-3">
+          Projects
+        </p>
+        <h2 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Things I've built
+        </h2>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="flex flex-wrap gap-2" id="filter-bar">
+        <button
+          data-filter="all"
+          class="filter-btn active px-4 py-1.5 rounded-full text-sm font-medium border border-cyan-600 bg-cyan-600 text-white transition-all"
+        >
+          All
+        </button>
+        {allTech.map((tech) => (
+          <button
+            data-filter={tech}
+            class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium border border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-cyan-500 dark:hover:border-cyan-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all"
+          >
+            {tech}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Scrolling rows -->
+    <div class="flex flex-col gap-6">
+
+      <!-- Row 1: scrolls left -->
+      <div class="relative">
+        <div class="scroll-row scroll-left flex gap-6 w-max" id="row1">
+          {[...row1, ...row1, ...row1, ...row1].map((project) => (
+            <div class="card-wrapper" data-tech={project.tech.join(",")}>
+              <ProjectCard project={project} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Row 2: scrolls right -->
+      <div class="relative">
+        <div class="scroll-row scroll-right flex gap-6 w-max" id="row2">
+          {[...row2, ...row2, ...row2, ...row2].map((project) => (
+            <div class="card-wrapper" data-tech={project.tech.join(",")}>
+              <ProjectCard project={project} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .scroll-row {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .scroll-left {
+    animation-name: scrollLeft;
+    animation-duration: 30s;
+  }
+
+  .scroll-right {
+    animation-name: scrollRight;
+    animation-duration: 30s;
+  }
+
+  @keyframes scrollLeft {
+    from { transform: translateX(0); }
+    to   { transform: translateX(var(--scroll-amount)); }
+  }
+
+  @keyframes scrollRight {
+    from { transform: translateX(var(--scroll-amount)); }
+    to   { transform: translateX(0); }
+  }
+
+  /* Pause on hover */
+  .scroll-row:hover {
+    animation-play-state: paused;
+  }
+
+  /* ── Gradient mesh background ───────────────────────── */
+  .mesh-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .mesh-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+  }
+
+  /* Blob 1 — cyan, top right */
+  .mesh-blob-1 {
+    width: 400px;
+    height: 400px;
+    background: rgba(6, 182, 212, 0.10);
+    top: 0;
+    right: 0;
+    animation: proj1 11s ease-in-out infinite;
+  }
+
+  /* Blob 2 — cyan, bottom left */
+  .mesh-blob-2 {
+    width: 300px;
+    height: 300px;
+    background: rgba(6, 182, 212, 0.07);
+    bottom: 10%;
+    left: 3%;
+    animation: proj2 14s ease-in-out infinite;
+  }
+
+  :global(.dark) .mesh-blob-1 { background: rgba(34, 211, 238, 0.10); }
+  :global(.dark) .mesh-blob-2 { background: rgba(34, 211, 238, 0.07); }
+
+  @keyframes proj1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(-40px, 30px) scale(1.1); }
+  }
+
+  @keyframes proj2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(30px, -40px) scale(1.2); }
+  }
+
+  /* Active filter button style */
+  .filter-btn.active {
+    border-color: rgb(8 145 178);
+    background-color: rgb(8 145 178);
+    color: white;
+  }
+</style>
+
+<script>
+  // Measure actual half-width of each row and set --scroll-amount so the
+  // keyframe translates by exactly one set of cards, eliminating the gap.
+  function initScrollAmounts() {
+    const row1 = document.getElementById("row1") as HTMLElement | null;
+    const row2 = document.getElementById("row2") as HTMLElement | null;
+    if (row1) row1.style.setProperty("--scroll-amount", `-${row1.scrollWidth / 4}px`);
+    if (row2) row2.style.setProperty("--scroll-amount", `-${row2.scrollWidth / 4}px`);
+  }
+  initScrollAmounts();
+
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const cardWrappers = document.querySelectorAll<HTMLElement>(".card-wrapper");
+
+  const activeFilters = new Set<string>();
+
+  function applyFilters() {
+    cardWrappers.forEach((card) => {
+      const tech = new Set((card.dataset.tech ?? "").split(","));
+      const match =
+        activeFilters.size === 0 ||
+        [...activeFilters].some((f) => tech.has(f));
+      card.style.display = match ? "" : "none";
+    });
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const filter = btn.dataset.filter ?? "all";
+
+      if (filter === "all") {
+        activeFilters.clear();
+        filterBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      } else {
+        // Deactivate "All" button
+        document.querySelector<HTMLButtonElement>('[data-filter="all"]')?.classList.remove("active");
+
+        if (activeFilters.has(filter)) {
+          activeFilters.delete(filter);
+          btn.classList.remove("active");
+          // If nothing selected, reactivate "All"
+          if (activeFilters.size === 0) {
+            document.querySelector<HTMLButtonElement>('[data-filter="all"]')?.classList.add("active");
+          }
+        } else {
+          activeFilters.add(filter);
+          btn.classList.add("active");
+        }
+      }
+
+      applyFilters();
+    });
+  });
+</script>

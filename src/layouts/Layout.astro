@@ -25,9 +25,11 @@ const {
     <link rel="icon" href="/favicon.ico" />
     <title>{title}</title>
 
-    <!-- Prevent flash of wrong theme -->
+    <!-- Prevent flash of wrong theme — defaults to dark -->
     <script is:inline>
-      if (localStorage.theme === "dark") {
+      if (localStorage.theme === "light") {
+        document.documentElement.classList.remove("dark");
+      } else {
         document.documentElement.classList.add("dark");
       }
     </script>

@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const href = project.slug ? `/projects/${project.slug}` : (project.github ?? "#");
+const href = project.slug ? `/projects/${project.slug}` : (project.url ?? project.github ?? "#");
 const external = !project.slug;
 ---
 
@@ -30,7 +30,11 @@ const external = !project.slug;
       <div class="live-cursor" style="position:absolute;width:14px;height:14px;border-radius:50%;background:white;mix-blend-mode:difference;pointer-events:none;display:none;transform:translate(-50%,-50%);z-index:9999;"></div>
     </div>
   ) : (
-    <div class="w-full h-36 rounded-xl bg-gradient-to-br from-cyan-500/10 to-cyan-700/10 dark:from-cyan-500/15 dark:to-cyan-700/15 flex items-center justify-center">
+    <div
+      class="w-full h-36 rounded-xl flex items-center justify-center"
+      style={project.thumbnailBg ? `background: ${project.thumbnailBg}` : undefined}
+      class:list={[!project.thumbnailBg && "bg-gradient-to-br from-cyan-500/10 to-cyan-700/10 dark:from-cyan-500/15 dark:to-cyan-700/15"]}
+    >
       {project.thumbnail
         ? <img src={project.thumbnail} alt={project.title} class="w-full h-full object-cover rounded-xl" />
         : <span class="text-3xl opacity-20">{ "{ }" }</span>

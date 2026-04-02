@@ -6,6 +6,7 @@ export interface Project {
   url?: string;
   slug?: string; // if set, card links to /projects/[slug] instead of github
   thumbnail?: string;
+  thumbnailBg?: string; // CSS background for emoji thumbnails
   livePreview?: boolean; // renders a live scaled iframe of the site as the thumbnail
 }
 
@@ -14,6 +15,8 @@ export const projects: Project[] = [
     title: "Tavernboard",
     description: "Personal Android productivity app combining calendar, to-do lists, and project management with recurring event support and deadline tracking.",
     tech: ["Flutter", "Dart", "SQLite"],
+    url: "https://tavernboard.matthewbarlow.me",
+    thumbnail: "/tavernboard-icon.svg",
   },
   {
     title: "Nodesmith",

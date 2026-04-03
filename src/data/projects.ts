@@ -13,8 +13,8 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: "Tavernboard",
-    description: "Personal Android productivity app combining calendar, to-do lists, and project management with recurring event support and deadline tracking.",
-    tech: ["Flutter", "Dart", "SQLite"],
+    description: "Personal Android & Web productivity app combining calendar, to-do lists, and project management with recurring event support and deadline tracking.",
+    tech: ["Flutter", "Dart", "SQLite", "Riverpod"],
     url: "https://tavernboard.matthewbarlow.me",
     thumbnail: "/tavernboard-icon.svg",
   },

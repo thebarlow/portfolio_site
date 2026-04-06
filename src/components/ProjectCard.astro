@@ -14,11 +14,11 @@ const external = !project.slug;
   href={href}
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
-  class="project-card group relative flex flex-col gap-3 p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500 dark:hover:border-cyan-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/10 cursor-pointer overflow-hidden w-72 flex-shrink-0"
+  class="project-card group relative flex flex-col gap-0 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500 dark:hover:border-cyan-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/10 cursor-pointer overflow-hidden w-64 flex-shrink-0 h-[276px]"
 >
-  <!-- Thumbnail -->
+  <!-- Thumbnail: fixed height 144px -->
   {project.livePreview ? (
-    <div class="live-preview-thumb relative w-full h-36 rounded-xl overflow-hidden bg-gray-900">
+    <div class="live-preview-thumb relative w-full rounded-xl overflow-hidden bg-gray-900 flex-shrink-0" style="height:144px;">
       <iframe
         class="live-preview-iframe"
         src="/"
@@ -31,34 +31,39 @@ const external = !project.slug;
     </div>
   ) : (
     <div
-      class="w-full h-36 rounded-xl flex items-center justify-center"
-      style={project.thumbnailBg ? `background: ${project.thumbnailBg}` : undefined}
+      class="w-full rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden"
+      style={`height:144px;${project.thumbnailBg ? `background:${project.thumbnailBg}` : ''}`}
       class:list={[!project.thumbnailBg && "bg-gradient-to-br from-cyan-500/10 to-cyan-700/10 dark:from-cyan-500/15 dark:to-cyan-700/15"]}
     >
       {project.thumbnail
-        ? <img src={project.thumbnail} alt={project.title} class="w-full h-full object-cover rounded-xl" />
+        ? <img src={project.thumbnail} alt={project.title} class="w-full h-full object-cover" />
         : <span class="text-3xl opacity-20">{ "{ }" }</span>
       }
     </div>
   )}
 
-  <!-- Content -->
-  <div class="flex flex-col gap-1">
-    <h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+  <!-- Content: title (1 line) + description (2 lines), fixed height -->
+  <div class="flex flex-col gap-1 pt-3 pb-1 verflow-hidden" style="height:82px;">
+    <h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors truncate">
       {project.title}
     </h3>
-    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
+    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2 overflow-hidden">
       {project.description}
     </p>
   </div>
 
-  <!-- Tech stack (always visible at bottom) -->
-  <div class="flex flex-wrap gap-1 mt-auto pt-2">
-    {project.tech.map((t) => (
-      <span class="px-2 py-0.5 rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-xs font-mono">
+  <!-- Tech tags: single row, overflow hidden, +N more pill -->
+  <div class="flex gap-1 overflow-hidden flex-shrink-0" style="height:20px;">
+    {project.tech.slice(0, 3).map((t) => (
+      <span class="px-2 py-0.5 rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-xs font-mono whitespace-nowrap flex-shrink-0">
         {t}
       </span>
     ))}
+    {project.tech.length > 3 && (
+      <span class="px-2 py-0.5 rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-500 text-xs font-mono flex-shrink-0">
+        +{project.tech.length - 3}
+      </span>
+    )}
   </div>
 
   <!-- Hover overlay -->

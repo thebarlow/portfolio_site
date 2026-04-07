@@ -5,9 +5,6 @@ import { projects } from "../data/projects";
 // Collect all unique tech tags for the filter bar
 const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort();
 
-// Split projects into two rows
-const row1 = projects.slice(0, Math.ceil(projects.length / 2));
-const row2 = projects.slice(Math.ceil(projects.length / 2));
 ---
 
 <section
@@ -50,66 +47,18 @@ const row2 = projects.slice(Math.ceil(projects.length / 2));
       </div>
     </div>
 
-    <!-- Scrolling rows -->
-    <div class="flex flex-col gap-6">
-
-      <!-- Row 1: scrolls left -->
-      <div class="relative">
-        <div class="scroll-row scroll-left flex gap-6 w-max" id="row1">
-          {[...row1, ...row1, ...row1, ...row1].map((project) => (
-            <div class="card-wrapper" data-tech={project.tech.join(",")}>
-              <ProjectCard project={project} />
-            </div>
-          ))}
+    <!-- Static 3-column grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((project) => (
+        <div class="card-wrapper" data-tech={project.tech.join(",")}>
+          <ProjectCard project={project} />
         </div>
-      </div>
-
-      <!-- Row 2: scrolls right -->
-      <div class="relative">
-        <div class="scroll-row scroll-right flex gap-6 w-max" id="row2">
-          {[...row2, ...row2, ...row2, ...row2].map((project) => (
-            <div class="card-wrapper" data-tech={project.tech.join(",")}>
-              <ProjectCard project={project} />
-            </div>
-          ))}
-        </div>
-      </div>
-
+      ))}
     </div>
   </div>
 </section>
 
 <style>
-  .scroll-row {
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
-
-  .scroll-left {
-    animation-name: scrollLeft;
-    animation-duration: 30s;
-  }
-
-  .scroll-right {
-    animation-name: scrollRight;
-    animation-duration: 30s;
-  }
-
-  @keyframes scrollLeft {
-    from { transform: translateX(0); }
-    to   { transform: translateX(var(--scroll-amount)); }
-  }
-
-  @keyframes scrollRight {
-    from { transform: translateX(var(--scroll-amount)); }
-    to   { transform: translateX(0); }
-  }
-
-  /* Pause on hover */
-  .scroll-row:hover {
-    animation-play-state: paused;
-  }
-
   /* ── Gradient mesh background ───────────────────────── */
   .mesh-bg {
     position: absolute;
@@ -167,16 +116,6 @@ const row2 = projects.slice(Math.ceil(projects.length / 2));
 </style>
 
 <script>
-  // Measure actual half-width of each row and set --scroll-amount so the
-  // keyframe translates by exactly one set of cards, eliminating the gap.
-  function initScrollAmounts() {
-    const row1 = document.getElementById("row1") as HTMLElement | null;
-    const row2 = document.getElementById("row2") as HTMLElement | null;
-    if (row1) row1.style.setProperty("--scroll-amount", `-${row1.scrollWidth / 4}px`);
-    if (row2) row2.style.setProperty("--scroll-amount", `-${row2.scrollWidth / 4}px`);
-  }
-  initScrollAmounts();
-
   const filterBtns = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
   const cardWrappers = document.querySelectorAll<HTMLElement>(".card-wrapper");
 

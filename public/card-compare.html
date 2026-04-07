@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Card Style Comparison</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #09090b; color: #fafafa; font-family: system-ui, sans-serif; }
+
+    .card-trace {
+      position: relative;
+      border: none !important;
+    }
+
+    .card-trace::before {
+      content: '';
+      position: absolute;
+      inset: -1.5px;
+      border-radius: inherit;
+      background: conic-gradient(from var(--angle, 0deg), transparent 0%, transparent 60%, #22d3ee 80%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Inner background to cover the conic bleed */
+    .card-trace::after {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      border-radius: calc(1rem - 1px);
+      background: #18181b;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .card-trace > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-trace:hover::before {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="p-12 flex flex-col gap-16">
+
+  <h1 class="text-zinc-400 text-sm font-mono tracking-widest uppercase">Card Style Comparison — Tavernboard</h1>
+
+  <!-- Option 1: Horizontal -->
+  <div>
+    <p class="text-zinc-500 text-xs font-mono mb-4">Option 1 — Horizontal</p>
+    <div class="card-trace flex items-center gap-4 p-4 rounded-2xl bg-zinc-900 w-[480px] cursor-pointer group">
+      <img src="/tavernboard-icon.svg" class="w-20 h-20 rounded-xl object-cover flex-shrink-0 bg-amber-900" />
+      <div class="flex flex-col gap-2 min-w-0">
+        <h3 class="font-semibold text-white group-hover:text-cyan-400 transition-colors">Tavernboard</h3>
+        <p class="text-sm text-zinc-400 leading-snug line-clamp-2">Personal Android & Web productivity app combining calendar, to-do lists, and project management.</p>
+        <div class="flex gap-1 flex-wrap">
+          <span class="px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 text-xs font-mono">Flutter</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 text-xs font-mono">Dart</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 text-xs font-mono">SQLite</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 text-xs font-mono">+1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option 2: Portrait 16:9 -->
+  <div>
+    <p class="text-zinc-500 text-xs font-mono mb-4">Option 2 — Portrait (16:9 thumbnail)</p>
+    <div class="card-trace flex flex-col rounded-2xl bg-zinc-900 w-72 cursor-pointer group overflow-hidden">
+      <div class="w-full bg-amber-900 flex items-center justify-center overflow-hidden" style="aspect-ratio:16/9;">
+        <img src="/tavernboard-icon.svg" class="w-full h-full object-cover" />
+      </div>
+      <div class="flex flex-col gap-2 p-4">
+        <h3 class="font-semibold text-white group-hover:text-cyan-400 transition-colors">Tavernboard</h3>
+        <p class="text-sm text-zinc-400 leading-snug line-clamp-2">Personal Android & Web productivity app combining calendar, to-do lists, and project management.</p>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 text-xs font-mono">Flutter</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 text-xs font-mono">Dart</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 text-xs font-mono">SQLite</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 text-xs font-mono">+1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option 3: Overlay -->
+  <div>
+    <p class="text-zinc-500 text-xs font-mono mb-4">Option 3 — Overlay</p>
+    <div class="card-trace relative rounded-2xl overflow-hidden w-72 cursor-pointer group" style="aspect-ratio:3/4;">
+      <img src="/tavernboard-icon.svg" class="absolute inset-0 w-full h-full object-cover" />
+      <!-- Gradient overlay always visible at bottom -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+      <!-- Content pinned to bottom -->
+      <div class="absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-2">
+        <h3 class="font-semibold text-white group-hover:text-cyan-400 transition-colors">Tavernboard</h3>
+        <p class="text-sm text-zinc-300 leading-snug line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Personal Android & Web productivity app combining calendar, to-do lists, and project management.</p>
+        <div class="flex gap-1 flex-wrap">
+          <span class="px-2 py-0.5 rounded-md bg-white/10 text-zinc-300 text-xs font-mono">Flutter</span>
+          <span class="px-2 py-0.5 rounded-md bg-white/10 text-zinc-300 text-xs font-mono">Dart</span>
+          <span class="px-2 py-0.5 rounded-md bg-white/10 text-zinc-300 text-xs font-mono">SQLite</span>
+          <span class="px-2 py-0.5 rounded-md bg-white/10 text-zinc-300 text-xs font-mono">+1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const cards = document.querySelectorAll('.card-trace');
+  const angles = new Map();
+
+  function animate() {
+    cards.forEach((card) => {
+      if (card.matches(':hover')) {
+        const current = angles.get(card) ?? 0;
+        const next = (current + 1.5) % 360;
+        angles.set(card, next);
+        card.style.setProperty('--angle', `${next}deg`);
+      }
+    });
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+</body>
+</html>

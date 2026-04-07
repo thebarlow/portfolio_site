@@ -14,11 +14,11 @@ const external = !project.slug;
   href={href}
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
-  class="project-card group relative flex flex-col gap-0 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500 dark:hover:border-cyan-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/10 cursor-pointer overflow-hidden w-64 flex-shrink-0 h-[276px]"
+  class="project-card group relative flex flex-col gap-0 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500 dark:hover:border-cyan-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/10 cursor-pointer overflow-hidden w-full"
 >
-  <!-- Thumbnail: fixed height 144px -->
+  <!-- Thumbnail: square aspect ratio -->
   {project.livePreview ? (
-    <div class="live-preview-thumb relative w-full rounded-xl overflow-hidden bg-gray-900 flex-shrink-0" style="height:144px;">
+    <div class="live-preview-thumb relative w-full aspect-square rounded-xl overflow-hidden bg-gray-900 flex-shrink-0">
       <iframe
         class="live-preview-iframe"
         src="/"
@@ -31,8 +31,8 @@ const external = !project.slug;
     </div>
   ) : (
     <div
-      class="w-full rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden"
-      style={`height:144px;${project.thumbnailBg ? `background:${project.thumbnailBg}` : ''}`}
+      class="w-full aspect-square rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden"
+      style={project.thumbnailBg ? `background:${project.thumbnailBg}` : ''}
       class:list={[!project.thumbnailBg && "bg-gradient-to-br from-cyan-500/10 to-cyan-700/10 dark:from-cyan-500/15 dark:to-cyan-700/15"]}
     >
       {project.thumbnail

@@ -47,10 +47,10 @@ const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort();
       </div>
     </div>
 
-    <!-- Static 3-column grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Card grid: centered, cards capped at 260px wide -->
+    <div class="flex flex-wrap justify-center gap-6">
       {projects.map((project) => (
-        <div class="card-wrapper" data-tech={project.tech.join(",")}>
+        <div class="card-wrapper w-[260px]" data-tech={project.tech.join(",")}>
           <ProjectCard project={project} />
         </div>
       ))}

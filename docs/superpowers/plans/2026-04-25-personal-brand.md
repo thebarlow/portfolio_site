@@ -12,6 +12,25 @@
 
 ---
 
+## Setup
+
+### Task 0: Create working branch
+
+- [ ] **Step 1: Create and check out the feature branch**
+
+  ```bash
+  git checkout -b feat/personal-brand
+  ```
+
+- [ ] **Step 2: Verify you're on the branch**
+
+  ```bash
+  git branch
+  ```
+  Expected: `* feat/personal-brand` is active.
+
+---
+
 ## Phase 1 — Website Copy
 
 ### Task 1: Update Hero copy

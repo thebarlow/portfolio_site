@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
+/* NOTE: Inter font requires an internet connection to load.
+   Open this file in a browser while online before printing.
+   Offline fallback: system-ui (may look different). */
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -22,6 +26,8 @@ body {
   justify-content: space-between;
   position: relative;
   overflow: hidden;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
 }
 
 /* Subtle cyan glow, top-right */

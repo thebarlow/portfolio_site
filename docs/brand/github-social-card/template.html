@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>GitHub Social Card</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 1280px;
+      height: 640px;
+      background: #09090b;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 72px 96px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Cyan glow top-right */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 65%);
+      top: -150px;
+      right: -100px;
+      pointer-events: none;
+    }
+
+    .top { display: flex; align-items: center; justify-content: space-between; }
+
+    .monogram svg { width: 48px; height: 48px; }
+
+    .domain {
+      font-size: 18px;
+      color: #71717a;
+      letter-spacing: 0.04em;
+    }
+
+    .middle { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+
+    .label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #22d3ee;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .title {
+      font-size: 64px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      /* EDIT: replace with repo/project name */
+    }
+
+    .description {
+      font-size: 24px;
+      color: #a1a1aa;
+      line-height: 1.4;
+      max-width: 800px;
+      /* EDIT: replace with one-line project description */
+    }
+
+    .bottom {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tag {
+      padding: 6px 14px;
+      border-radius: 6px;
+      background: #18181b;
+      border: 1px solid #27272a;
+      color: #a1a1aa;
+      font-size: 16px;
+      font-family: 'Menlo', 'Monaco', monospace;
+      /* EDIT: replace with tech stack tags */
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="48" height="48">
+      <rect width="32" height="32" rx="6" fill="#18181b"/>
+      <path d="M6 24V8l6 8 4-5.5 4 5.5 6-8v16h-2.5V13.5l-3.5 4.8-4-5.5-4 5.5-3.5-4.8V24H6z" fill="#22d3ee"/>
+    </svg>
+    <span class="domain">matthewbarlow.me</span>
+  </div>
+
+  <div class="middle">
+    <span class="label">Project</span>
+    <h1 class="title">Project Name</h1><!-- EDIT -->
+    <p class="description">One-line description of what this project does.</p><!-- EDIT -->
+  </div>
+
+  <div class="bottom">
+    <span class="tag">Python</span><!-- EDIT: replace tags -->
+    <span class="tag">FastAPI</span>
+    <span class="tag">Claude API</span>
+  </div>
+</body>
+</html>

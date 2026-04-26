@@ -29,6 +29,6 @@
 
 ## Usage Rules
 - Cyan is the **only** accent color. Do not introduce indigo, violet, or other hues.
-- Dark mode is the default. Light mode is opt-in via `.dark` class removal on `<html>`.
+- Dark mode is active when the `.dark` class is present on `<html>`. It is the default on this site (added on load via script).
 - Use zinc for all neutrals — not gray, slate, or stone.
 - Accent color on text: labels, hover states, active links only. Not body copy.

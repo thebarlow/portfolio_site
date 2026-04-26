@@ -31,7 +31,7 @@ The goal is to sound like someone who knows what they're doing and doesn't need 
 ## Title / Label Usage
 - Portfolio site label: `AI Engineer`
 - Business card title: `AI Automation Engineer`
-- Resume title: `AI / ML Engineer` or `Software Engineer — AI Systems`
+- Resume title: `AI / ML Engineer` for AI/ML-focused roles; `Software Engineer — AI Systems` for general SWE roles with AI scope
 - GitHub bio: concise, one line, no fluff
 
 ## Copy Examples

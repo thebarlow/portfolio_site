@@ -2,7 +2,7 @@
 tocLabel: Overview
 ---
 
-<img src="/autoapply-icon.svg" alt="Auto Apply logo" class="w-24 mb-6" />
+<img src="/projects/autoapply/autoapply-icon.svg" alt="Auto Apply logo" class="w-24 mb-6" />
 
 # Auto Apply
 

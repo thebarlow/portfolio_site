@@ -23,7 +23,7 @@ export const projects: Project[] = [
     description: "Semi-automated job scraping, tailored resume generation, and application management.",
     tech: ["Python", "FastAPI", "Playwright", "React", "SQLAlchemy"],
     slug: "autoapply",
-    thumbnail: "/autoapply-icon.svg",
+    thumbnail: "/projects/autoapply/autoapply-icon.svg",
     thumbnailFit: "contain",
   },
 ];

@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* NOTE: Inter font requires an internet connection to load.
+   Open this file in a browser while online before printing.
+   Offline fallback: system-ui (may look different). */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #27272a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.card {
+  width: 88.9mm;
+  height: 50.8mm;
+  background: #09090b;
+  border-radius: 3mm;
+  padding: 7mm 8mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+/* Subtle cyan glow, top-right */
+.card::before {
+  content: '';
+  position: absolute;
+  width: 40mm;
+  height: 40mm;
+  background: radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%);
+  top: -10mm;
+  right: -5mm;
+  pointer-events: none;
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.monogram {
+  width: 8mm;
+  height: 8mm;
+  flex-shrink: 0;
+}
+
+.card-bottom { display: flex; flex-direction: column; gap: 1mm; }
+
+.name {
+  font-size: 5mm;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.title {
+  font-size: 2.8mm;
+  font-weight: 500;
+  color: #22d3ee;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 1.5mm;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5mm;
+}
+
+.contact-line {
+  font-size: 2.5mm;
+  color: #a1a1aa;
+  font-weight: 400;
+}
+
+@media print {
+  body { background: white; min-height: unset; }
+  .card { box-shadow: none; }
+}

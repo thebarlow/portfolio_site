@@ -22,12 +22,13 @@ public/         # Static assets (images, favicon)
 ```
 
 ## Design Conventions
-- Color accent: indigo (`indigo-500` / `indigo-600`)
-- Section layout: label (monospace, uppercase, indigo) → heading → content
-- Section dividers: `border-t border-gray-100 dark:border-gray-800`
-- Cards: `rounded-2xl`, `bg-gray-50 dark:bg-gray-900`, hover lift + indigo border
+- Color accent: **cyan** (`cyan-400` hover/text · `cyan-600` borders/buttons) — do not use indigo
+- Section layout: label (monospace, uppercase, cyan) → heading → content
+- Section dividers: `border-t border-zinc-100 dark:border-zinc-800`
+- Cards: `rounded-2xl`, animated border trace, hover lift `translateY(-8px)` + cyan glow
 - Spacing: `py-32 px-6` per section, `max-w-6xl mx-auto` container
 - Typography: no custom font yet (system default), headings are `font-bold tracking-tight`
+- Full style spec: `references/style-guide.md` (read by `style-enforcer-agent`)
 
 ## Adding a Project
 Edit `src/data/projects.ts`. Each project has:
@@ -55,7 +56,7 @@ No linter configured yet. Astro type-checks TypeScript automatically on build.
 - The page lives at `src/pages/projects/[slug].astro`. Do not invent a different routing pattern.
 
 ## Open Design Decisions (ask before deciding)
-- **Color scheme** — TBD, will be iterated on with the user. Do not make permanent color decisions beyond the current indigo accent without asking.
+- **Color scheme** — TBD, will be iterated on with the user. Do not make permanent color decisions beyond the current cyan accent without asking.
 - **Font** — TBD. Currently using system default. Do not add a font without user approval.
 
 ## Rules

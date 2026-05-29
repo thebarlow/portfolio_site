@@ -6,10 +6,11 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const href = project.slug ? `/projects/${project.slug}` : (project.url ?? project.github ?? "#");
+const href = project.slug ? `/projects/${project.slug}/overview` : (project.url ?? project.github ?? "#");
 const external = !project.slug;
 const visibleTech = project.tech.slice(0, 3);
 const hiddenCount = project.tech.length - 3;
+const imgFit = project.thumbnailFit === "contain" ? "object-contain p-8" : "object-cover";
 ---
 
 <a
@@ -26,7 +27,7 @@ const hiddenCount = project.tech.length - 3;
     <img
       src={project.thumbnail ?? "/tavernboard-icon.svg"}
       alt={project.title}
-      class="absolute inset-0 w-full h-full object-cover"
+      class={`absolute inset-0 w-full h-full ${imgFit}`}
     />
 
     <!-- Gradient overlay -->

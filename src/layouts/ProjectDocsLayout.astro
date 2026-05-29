@@ -1,0 +1,191 @@
+---
+import Layout from "./Layout.astro";
+
+interface TocH2 {
+  label: string;
+  anchor: string;
+}
+
+interface TocEntry {
+  label: string;
+  href: string;
+  h2s: TocH2[];
+  active: boolean;
+}
+
+interface Props {
+  title?: string;
+  projectTitle: string;
+  projectSlug: string;
+  tocEntries: TocEntry[];
+}
+
+const { title, projectTitle, projectSlug, tocEntries } = Astro.props;
+---
+
+<Layout title={title ?? projectTitle}>
+  <div class="flex min-h-screen max-w-6xl mx-auto px-6 gap-12 pt-8">
+
+    <!-- ToC sidebar -->
+    <aside class="hidden md:block w-52 flex-shrink-0">
+      <nav class="sticky top-24">
+        <a
+          href={`/projects/${projectSlug}/overview`}
+          class="block text-xs font-mono uppercase tracking-widest text-cyan-500 mb-5 hover:text-cyan-400 transition-colors"
+        >
+          {projectTitle}
+        </a>
+        <ul class="space-y-0.5">
+          {tocEntries.map(entry => (
+            <li>
+              <a
+                href={entry.href}
+                class={`block text-sm py-1 transition-colors ${
+                  entry.active
+                    ? "text-white font-medium"
+                    : "text-zinc-400 hover:text-zinc-200"
+                }`}
+              >
+                {entry.label}
+              </a>
+              {entry.active && entry.h2s.length > 0 && (
+                <ul class="ml-3 mt-1 mb-2 space-y-0.5 border-l border-zinc-800 pl-3">
+                  {entry.h2s.map(sub => (
+                    <li>
+                      <a
+                        href={`${entry.href}#${sub.anchor}`}
+                        class="block text-xs text-zinc-500 hover:text-zinc-300 py-0.5 transition-colors"
+                      >
+                        {sub.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Content pane -->
+    <article class="flex-1 min-w-0 pb-32 prose-project">
+      <slot />
+    </article>
+
+  </div>
+</Layout>
+
+<style>
+  :global(.prose-project) {
+    color: var(--color-zinc-800);
+  }
+  :global(.dark .prose-project) {
+    color: var(--color-zinc-100);
+  }
+
+  :global(.prose-project h1) {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+    color: var(--color-zinc-900);
+  }
+  :global(.dark .prose-project h1) { color: #ffffff; }
+
+  :global(.prose-project h2) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    padding-top: 1rem;
+    color: var(--color-zinc-900);
+  }
+  :global(.dark .prose-project h2) { color: #ffffff; }
+
+  :global(.prose-project h3) {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-zinc-800);
+  }
+  :global(.dark .prose-project h3) { color: var(--color-zinc-100); }
+
+  :global(.prose-project p) {
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+
+  :global(.prose-project blockquote) {
+    border-left: 3px solid var(--color-cyan-500);
+    padding-left: 1rem;
+    color: var(--color-zinc-500);
+    font-style: italic;
+    margin: 1.5rem 0;
+  }
+  :global(.dark .prose-project blockquote) { color: var(--color-zinc-400); }
+
+  :global(.prose-project hr) {
+    border-color: var(--color-zinc-200);
+    margin: 2rem 0;
+  }
+  :global(.dark .prose-project hr) { border-color: var(--color-zinc-800); }
+
+  :global(.prose-project a) {
+    color: var(--color-cyan-500);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  :global(.prose-project a:hover) { color: var(--color-cyan-400); }
+
+  :global(.prose-project code) {
+    background: var(--color-zinc-100);
+    color: var(--color-zinc-800);
+    font-size: 0.875em;
+    padding: 0.15em 0.4em;
+    border-radius: 0.25rem;
+    font-family: ui-monospace, monospace;
+  }
+  :global(.dark .prose-project code) {
+    background: var(--color-zinc-800);
+    color: var(--color-zinc-100);
+  }
+
+  :global(.prose-project pre) {
+    background: var(--color-zinc-900);
+    color: var(--color-zinc-100);
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  :global(.prose-project pre code) {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+  }
+
+  :global(.prose-project ul) {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  :global(.prose-project ol) {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  :global(.prose-project li) { margin-bottom: 0.35rem; }
+
+  :global(.prose-project img),
+  :global(.prose-project video),
+  :global(.prose-project iframe) {
+    max-width: 100%;
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+    display: block;
+  }
+</style>

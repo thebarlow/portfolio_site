@@ -1,0 +1,55 @@
+---
+import { getCollection, render } from 'astro:content';
+import ProjectDocsLayout from '../../../layouts/ProjectDocsLayout.astro';
+
+export async function getStaticPaths() {
+  const all = await getCollection('projects');
+  return all.map(entry => {
+    const [slug, filename] = entry.id.replace(/\.md$/, '').split('/');
+    const page = filename.replace(/^\d+_/, '');
+    return { params: { slug, page }, props: { entry, slug } };
+  });
+}
+
+const { entry, slug } = Astro.props;
+const { Content, headings } = await render(entry);
+
+const numPrefix = (id: string) => {
+  const filename = id.replace(/\.md$/, '').split('/')[1] ?? '';
+  const match = filename.match(/^(\d+)/);
+  return match ? parseInt(match[1]) : 999;
+};
+
+const all = await getCollection('projects');
+const siblings = all
+  .filter(e => e.id.replace(/\.md$/, '').startsWith(slug + '/'))
+  .sort((a, b) => numPrefix(a.id) - numPrefix(b.id));
+
+const currentPage = Astro.params.page;
+
+const tocEntries = siblings.map(sibling => {
+  const filename = sibling.id.replace(/\.md$/, '').split('/')[1] ?? '';
+  const page = filename.replace(/^\d+_/, '');
+  const label = (sibling.data as { tocLabel?: string }).tocLabel ?? page;
+  const href = `/projects/${slug}/${page}`;
+  const active = page === currentPage;
+  const h2s = active
+    ? headings
+        .filter(h => h.depth === 2)
+        .map(h => ({ label: h.text, anchor: h.slug }))
+    : [];
+  return { label, href, active, h2s };
+});
+
+const projectTitle = (tocEntries[0]?.label ?? slug) as string;
+const pageLabel = tocEntries.find(e => e.active)?.label ?? currentPage;
+---
+
+<ProjectDocsLayout
+  projectTitle={projectTitle}
+  projectSlug={slug}
+  tocEntries={tocEntries}
+  title={`${pageLabel} — ${projectTitle}`}
+>
+  <Content />
+</ProjectDocsLayout>
